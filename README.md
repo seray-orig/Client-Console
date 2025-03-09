@@ -5,3 +5,6 @@
 ### Кастомные команды:
 `clcs` - консольная команда (если вы суперадмин) откроет клиентскую консоль.
 `clear` - внутренняя команда (оригинальная заблокирована для game.ConsoleCommand()) очищает вашу клиентскую консоль.
+
+workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=3435434462
+github: https://github.com/seray-orig/Client-Console
