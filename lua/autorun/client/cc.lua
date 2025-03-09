@@ -19,18 +19,13 @@ hook.Add("HUDPaint", "FirstGenerate_CC", function ()	-- Генерация эл�
 	mainBackgroundWindow:SetSizable(true)
 	mainBackgroundWindow:ShowCloseButton(false)
 	mainBackgroundWindow:SetDeleteOnClose(false)
+	mainBackgroundWindow:DockPadding(5,30,5,5)
 	mainBackgroundWindow:MakePopup()
 	mainBackgroundWindow.Paint = function(self,width,height)
 		draw.RoundedBox(0,0,0,width,height,Color(20,20,20,255))
 	end
 	mainBackgroundWindow.OnSizeChanged = function()
 		closeWindowButton:SetPos(mainBackgroundWindow:GetSize()-25,0)
-		textEntryBackground:SetPos(mainBackgroundWindow:GetWide()-mainBackgroundWindow:GetWide()+5, mainBackgroundWindow:GetTall()-25)
-	    textEntryBackground:SetSize(mainBackgroundWindow:GetWide()-textEntryArea:GetX()-5,20)
-        textEntryArea:SetPos(mainBackgroundWindow:GetWide()-mainBackgroundWindow:GetWide()+5, mainBackgroundWindow:GetTall()-25)
-	    textEntryArea:SetSize(mainBackgroundWindow:GetWide()-textEntryArea:GetX()-5,20)
-	    richTextInsideWindow:SetSize(mainBackgroundWindow:GetWide()-richTextInsideWindow:GetX()-5,mainBackgroundWindow:GetTall()-richTextInsideWindow:GetY()-30)
-		richTextBackground:SetSize(mainBackgroundWindow:GetWide()-richTextBackground:GetX()-5,mainBackgroundWindow:GetTall()-richTextBackground:GetY()-30)
 	end
 
     closeWindowButton = vgui.Create("DButton", mainBackgroundWindow)
@@ -47,24 +42,21 @@ hook.Add("HUDPaint", "FirstGenerate_CC", function ()	-- Генерация эл�
 	end
 
 	richTextBackground = vgui.Create("DPanel", mainBackgroundWindow)
-	richTextBackground:SetPos(mainBackgroundWindow:GetWide()-mainBackgroundWindow:GetWide()+5, mainBackgroundWindow:GetTall()-mainBackgroundWindow:GetTall()+30)
-	richTextBackground:SetSize(mainBackgroundWindow:GetWide()-richTextBackground:GetX()-5,mainBackgroundWindow:GetTall()-richTextBackground:GetY()-30)
+	richTextBackground:Dock(FILL)
 	richTextBackground:SetBackgroundColor(Color(40,40,40,255))
 
-    richTextInsideWindow = vgui.Create("RichText", mainBackgroundWindow)
+    richTextInsideWindow = vgui.Create("RichText", richTextBackground)
     richTextInsideWindow:SetVerticalScrollbarEnabled(true)
-    richTextInsideWindow:SetPos(mainBackgroundWindow:GetWide()-mainBackgroundWindow:GetWide()+5, mainBackgroundWindow:GetTall()-mainBackgroundWindow:GetTall()+30)
-	richTextInsideWindow:SetSize(mainBackgroundWindow:GetWide()-richTextInsideWindow:GetX()-5,mainBackgroundWindow:GetTall()-richTextInsideWindow:GetY()-30)
+    richTextInsideWindow:Dock(FILL)
 	function richTextInsideWindow:PerformLayout() self:SetFontInternal("richTextDefault_CC") end
 
 	textEntryBackground = vgui.Create("DPanel", mainBackgroundWindow)
-	textEntryBackground:SetPos(mainBackgroundWindow:GetWide()-mainBackgroundWindow:GetWide()+5, mainBackgroundWindow:GetTall()-25)
-	textEntryBackground:SetSize(mainBackgroundWindow:GetWide()-textEntryBackground:GetX()-5,20)
+	textEntryBackground:Dock(BOTTOM)
+	textEntryBackground:DockMargin(0,5,0,0)
 	textEntryBackground:SetBackgroundColor(Color(255,255,255,255))
 
-    textEntryArea = vgui.Create("DTextEntry", mainBackgroundWindow)
-	textEntryArea:SetPos(mainBackgroundWindow:GetWide()-mainBackgroundWindow:GetWide()+5, mainBackgroundWindow:GetTall()-25)
-	textEntryArea:SetSize(mainBackgroundWindow:GetWide()-textEntryArea:GetX()-5,20)
+    textEntryArea = vgui.Create("DTextEntry", textEntryBackground)
+	textEntryArea:Dock(FILL)
 	textEntryArea:SetPlaceholderText("")
 	textEntryArea:SetHistoryEnabled(true)
 	textEntryArea:SetPaintBackground(false)
