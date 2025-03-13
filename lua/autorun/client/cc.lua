@@ -63,7 +63,7 @@ hook.Add("HUDPaint", "FirstGenerate_CC", function ()	-- Генерация эл�
 	textEntryArea:SetCursorColor(Color(0,0,0))
 	textEntryArea:SetTextColor(Color(0,0,0))
 	function textEntryArea:OnEnter(text)	-- Когда игрок кажал Enter
-		if string.Trim(self:GetText()) != "" then	-- Проверка на "холостое" нажатие
+		if string.Trim(self:GetText()) ~= "" then	-- Проверка на "холостое" нажатие
 			if string.Trim(self:GetText()) == "clear" then	-- Кастомная команда очистки клиентской консоли
 				richTextInsideWindow:SetText("")
 				textEntryArea:SetText("")
@@ -102,7 +102,19 @@ hook.Add("HUDPaint", "FirstGenerate_CC", function ()	-- Генерация эл�
 	end
 
 	mainBackgroundWindow:SetVisible(false)
-	concommand.Add("clcs", function () mainBackgroundWindow:SetVisible(true) textEntryArea:RequestFocus() end, function() end, "Opens the Client Console")	-- Консольная команда открывающая окно клиентской консоли
+	concommand.Add("clcs", function (_,_,_,str)		-- Консольная команда открывающая окно клиентской консоли (если есть аргументы, то отправляет запрос без открытия консоли)
+		if string.Trim(str) ~= "" then
+			if string.Trim(str) == "clear" then richTextInsideWindow:SetText("")	-- Не знаю зачем это надо, просто небольшая деталь :)
+			else
+				net.Start("QueryCMDToServer_CC")
+				net.WriteString(str)
+				net.SendToServer()
+			end
+		else
+			mainBackgroundWindow:SetVisible(true)
+			textEntryArea:RequestFocus()
+		end
+	end, nil, "Opens the Client Console")
     hook.Remove("HUDPaint", "FirstGenerate_CC")	-- Удаление хука, после генерации элементов он больше не нужен
 end)
 

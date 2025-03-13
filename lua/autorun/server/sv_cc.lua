@@ -12,7 +12,7 @@ hook.Add("OnLuaError", "LuaErrorCallBack", function (err)
 	end
 end)
 
-net.Receive("QueryCMDToServer_CC", function(len, ply)
+net.Receive("QueryCMDToServer_CC", function(_, ply)
 	if not ply:IsSuperAdmin() then return false end		-- Если каким-то образом не суперадмин отправит запрос, то сервер его не выполнит
 
 	local cmd = net.ReadString()	-- Команда отправленная клиентом
